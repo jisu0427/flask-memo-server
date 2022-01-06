@@ -12,15 +12,10 @@ from utils import hash_password
 
 from flask_jwt_extended import create_access_token
 
-
-
-class UserRegisterResources(Resource):
-    def post(self):
-        # 1. 클라이언트가 보내준, 회원 정보를 받아온다.
+class UserRegisterResource(Resource) :
+    def post(self) :
         data = request.get_json()
-
-        # data = {"username" : "아무개", "email" : "qqq@gmail.com", 
-        #         "password" : "abc123@"}
+        # email, password, nickname
 
         # 2. 이메일 주소가 제대로 된 주소인지 확인하는 코드
         #    잘못된 이메일주소면, 잘못됬다고 응답한다.
@@ -32,7 +27,7 @@ class UserRegisterResources(Resource):
             # email is not valid, exception message is human-readable
             print(str(e))
             return {'error' : '이메일 주소가 잘못되었습니다.'} ,HTTPStatus.BAD_REQUEST
-        
+
         # 3. 비밀번호 길이같은 조건이 있는지 확인하는 코드
         #    잘못됬으면, 클라이언트에 응답한다.
         if len( data['password'] ) < 4 or len(data['password']) > 10 :
@@ -54,7 +49,8 @@ class UserRegisterResources(Resource):
                         (email, password, nickname)
                         values
                         (%s, %s, %s);'''
-            # 파이썬에서, 튜플만들때, 데이터가 1개인 경우에는 콤마를 꼭 써준다.
+            # 파이썬에서, 튜플만들때, 데이터가 1개인 경우에는 콤마를 꼭
+            # 써준다.
             record = (data['email'], hashed_password, data['nickname'])
             
             # 3. 커넥션으로부터 커서를 가져온다.
@@ -81,7 +77,6 @@ class UserRegisterResources(Resource):
                 cursor.close()
                 connection.close()
                 print('MySQL connection is closed')
-
 
         # 7. JWT 토큰을 발행한다.
         ### DB 에 저장된 유저 아이디값으로 토큰을 발행한다!

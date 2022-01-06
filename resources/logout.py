@@ -1,4 +1,3 @@
-
 from flask_jwt_extended import get_jwt
 
 from flask import request
@@ -32,3 +31,14 @@ class UserLogoutResource(Resource) :
         jwt_blacklist.add(jti)
 
         return {'result':'로그아웃 되었습니다.'}
+
+
+
+
+
+
+
+
+
+
+
