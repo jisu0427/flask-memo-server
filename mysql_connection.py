@@ -6,4 +6,4 @@ def get_connection() :
             user = 'memo_user',
             password = '2105'
     )
-    return connectionds
+    return connection
